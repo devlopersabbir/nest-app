@@ -1,34 +1,47 @@
-# name: Testing and pushing to docker registry
+name: Testing and pushing to docker registry
 
-# on: [workflow_dispatch]
+on: [workflow_dispatch]
 
-# env:
-#   VPS_ROOT_PASSWORD: ${{ secrets.VPS_ROOT_PASSWORD }}
-#   VPS_SSH: ${{ secrets.VPS_SSH }}
-#   VPS_HOST: ${{ secrets.VPS_HOST }}
-#   VPS_USER: ${{ secrets.VPS_USER }}
+env:
+  VPS_ROOT_PASSWORD: ${{ secrets.VPS_ROOT_PASSWORD }}
+  VPS_SSH: ${{ secrets.VPS_SSH }}
+  VPS_HOST: ${{ secrets.VPS_HOST }}
+  VPS_USER: ${{ secrets.VPS_USER }}
 
-# jobs:
-#   deploy:
-#     name: deploy application
-#     runs-on: ubuntu-latest
+jobs:
+  deploy:
+    name: deploy application
+    runs-on: ubuntu-latest
 
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: '22'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
-#       - name: Execute remote SSH commands using password
-#         uses: appleboy/ssh-action@v1
-#         with:
-#           host: ${{ env.VPS_HOST }}
-#           password: ${{ env.VPS_ROOT_PASSWORD }}
-#           username: ${{ env.VPS_USER }}
-#           script: whoami
-#           run: |
-#             echo "login to vps success"
-#       - name:
+      - name: Execute remote SSH commands using password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.VPS_HOST }}
+          password: ${{ env.VPS_ROOT_PASSWORD }}
+          username: ${{ env.VPS_USER }}
+          script: whoami
+          run: |
+            echo "login to vps success"
+
+      - name: copy dist directory to the vps (if already exist then delete and put new one)
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: './test_dist'
+          target: '~/workspace/nest-app'
+          rm: true
+          run: |
+            ls -a
+            echo "test_dist copied successfully"
