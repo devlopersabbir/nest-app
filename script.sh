@@ -1,1 +1,1 @@
-cd ~/workspace/nest-app && ls -a && git pull origin main && ls -a && npm install && ls -a
+cd ~/workspace/nest-app && ls -a && git pull origin main && ls -a && npm install && ls -a && pm2 restart main
