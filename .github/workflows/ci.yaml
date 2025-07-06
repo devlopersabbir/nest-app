@@ -58,4 +58,4 @@ jobs:
           host: ${{ env.VPS_HOST }}
           password: ${{ env.VPS_ROOT_PASSWORD }}
           username: ${{ env.VPS_USER }}
-          command: cd ~/workspace/nest-app && ls -a && git pull origin main && ls -a && npm install && ls -a
+          script_path: ./script.sh

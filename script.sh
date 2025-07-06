@@ -1,1 +1,1 @@
-pm2 start dist/main
+cd ~/workspace/nest-app && ls -a && git pull origin main && ls -a && npm install && ls -a
