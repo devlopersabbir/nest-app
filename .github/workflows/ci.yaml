@@ -38,7 +38,7 @@ jobs:
           password: ${{ env.VPS_ROOT_PASSWORD }}
           username: ${{ env.VPS_USER }}
           source: './test_dist'
-          target: '~/workspace/nest-app/test_dist'
+          target: '~/workspace/nest-app'
           rm: false
           run: |
             ls -a
