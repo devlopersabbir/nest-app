@@ -31,15 +31,31 @@ jobs:
           run: |
             echo "login to vps success"
 
+      - name: install depen
+        run: npm i
+
+      - name: build app
+        run: npm run build
+      - name: check the dist directory if exist or not
+        run: ls -a
+
       - name: copy dist directory to the vps (if already exist then delete and put new one)
         uses: appleboy/scp-action@v1
         with:
           host: ${{ env.VPS_HOST }}
           password: ${{ env.VPS_ROOT_PASSWORD }}
           username: ${{ env.VPS_USER }}
-          source: './test_dist'
+          source: './dist'
           target: '~/workspace/nest-app'
           rm: false
           run: |
             ls -a
-            echo "test_dist copied successfully"
+            echo "dist copied successfully"
+
+      - name: Run git pull & npm install on VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.VPS_HOST }}
+          password: ${{ env.VPS_ROOT_PASSWORD }}
+          username: ${{ env.VPS_USER }}
+          command: cd ~/workspace/nest-app && git pull origin main && npm install
