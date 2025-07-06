@@ -1,6 +1,8 @@
 name: Testing and pushing to docker registry
 
-on: [workflow_dispatch]
+on:
+  push:
+    branches: ['main']
 
 env:
   VPS_ROOT_PASSWORD: ${{ secrets.VPS_ROOT_PASSWORD }}
