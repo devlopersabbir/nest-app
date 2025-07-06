@@ -35,10 +35,10 @@ jobs:
       - name: copy dist directory to the vps (if already exist then delete and put new one)
         uses: appleboy/scp-action@v1
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
+          host: ${{ env.VPS_HOST }}
+          password: ${{ env.VPS_ROOT_PASSWORD }}
+          username: ${{ env.VPS_USER }}
+          script: whoami
           source: './test_dist'
           target: '~/workspace/nest-app'
           rm: true
